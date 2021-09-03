@@ -4,7 +4,7 @@ from rdkit.Chem import Draw
 import xml.etree.ElementTree as ET
 
 
-def emoji_draw(mol, filename, width=300, height=200):
+def emoji_draw(mol, filename=None, width=300, height=200):
     drawer = Chem.Draw.rdMolDraw2D.MolDraw2DSVG(width, height)
     drawer.drawOptions().bgColor = None
     drawer.DrawMolecule(mol)
@@ -14,8 +14,9 @@ def emoji_draw(mol, filename, width=300, height=200):
         if a.GetSymbol() != 'C':
             sp[f'atom-{a.GetIdx()}'] = emoji_dict[elem_dict[a.GetSymbol()]]
     svg = rewrite_svg(drawer.GetDrawingText(), sp)
-    with open(filename, 'w') as f:
-        f.write(svg)
+    if filename is not None:
+        with open(filename, 'w') as f:
+            f.write(svg)
 
 
 def extract_mins(path):
@@ -56,4 +57,5 @@ def rewrite_svg(svg, sp):
                 t.text = sp[name]
                 marked[name] = t
             root.remove(p)
+    ET.register_namespace("", "http://www.w3.org/2000/svg")
     return ET.tostring(root, encoding="unicode", method='xml')
