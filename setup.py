@@ -15,7 +15,7 @@ def read(filename):
 
 setup(
     name='emojichem',
-    version='1.6',
+    version='0.1',
     url='https://github.com/whitead/emoji-chem',
     license='MIT',
 
