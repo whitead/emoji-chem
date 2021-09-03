@@ -17,6 +17,8 @@ def emoji_draw(mol, filename=None, width=300, height=200):
     if filename is not None:
         with open(filename, 'w') as f:
             f.write(svg)
+    else:
+        return svg
 
 
 def extract_mins(path):
