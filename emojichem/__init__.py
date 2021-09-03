@@ -42,8 +42,8 @@ def rewrite_svg(svg, sp):
             if name in marked:
                 x, y, dx = extract_mins(p.attrib['d'])
                 marked[name].text = emoji_dict['hydrogen'] + marked[name].text
-                marked[name].attrib['textLength'] = str(
-                    float(marked[name].attrib['textLength']) + float(dx))
+                # marked[name].attrib['textLength'] = str(
+                #    float(marked[name].attrib['textLength']) + float(dx))
             else:
                 x, y, dx = extract_mins(p.attrib['d'])
                 t = ET.SubElement(
@@ -52,9 +52,9 @@ def rewrite_svg(svg, sp):
                     {
                         'x': x,
                         'y': y,
-                        'font-size': '0.8rem',
+                        'font-size': '1rem',
                         'dominant-baseline': 'middle',
-                        'text-anchor': 'middle', 'textLength': dx
+                        'text-anchor': 'middle'  # , 'textLength': dx
                     })
                 t.text = sp[name]
                 marked[name] = t

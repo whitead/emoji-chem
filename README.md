@@ -1,4 +1,5 @@
 # emoji-chem
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/whitead/emoji-chem/blob/main/colab/EmojiChem.ipynb)
 
 ```py
 from rdkit import Chem
