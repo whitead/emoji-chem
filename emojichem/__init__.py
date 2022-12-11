@@ -10,11 +10,10 @@ def emoji_draw(mol, filename=None, width=300, height=200):
     drawer.drawOptions().baseFontSize = 1.0
     drawer.DrawMolecule(mol)
     drawer.FinishDrawing()
-    print(f'font size: {drawer.FontSize()}')
     sp = {}
-    for a in mol.GetAtoms():
-        if a.GetSymbol() != 'C':
-            sp[f'atom-{a.GetIdx()}'] = emoji_dict[elem_dict[a.GetSymbol()]]
+
+    for a in Chem.AddHs(mol).GetAtoms():
+        sp[f'atom-{a.GetIdx()}'] = emoji_dict[elem_dict[a.GetSymbol()]]
     svg = rewrite_svg(drawer.GetDrawingText(), sp)
     if filename is not None:
         with open(filename, 'w') as f:
