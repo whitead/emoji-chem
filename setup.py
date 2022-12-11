@@ -15,7 +15,7 @@ def read(filename):
 
 setup(
     name='emojichem',
-    version='0.1',
+    version='0.2',
     url='https://github.com/whitead/emoji-chem',
     license='MIT',
 
@@ -27,5 +27,5 @@ setup(
 
     packages=['emojichem'],
 
-    install_requires=['rdkit-pypi'],
+    install_requires=['rdkit'],
 )

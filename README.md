@@ -15,6 +15,10 @@ display(SVG(svg))
 ```
 
 ## Example
-This is how it should look, but `rdkit` and I have some ongoing disagreements.
+This is how it should look
 
 ![image](https://user-images.githubusercontent.com/908389/131951211-ef0047c9-3ced-4967-ae84-0f76c9ff16ea.png?width=40px)
+
+
+## Credit
+Emoji list was taken (with minor modifications) from Nicola Ga-stan (@nicgaston) in [this tweet](https://twitter.com/nicgaston/status/914311195305193472)
