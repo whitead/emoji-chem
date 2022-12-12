@@ -5,6 +5,8 @@ import xml.etree.ElementTree as ET
 
 
 def emoji_draw(mol, filename=None, width=300, height=200):
+    if type(mol) is str:
+        mol = Chem.MolFromSmiles(mol)
     drawer = Chem.Draw.rdMolDraw2D.MolDraw2DSVG(width, height)
     drawer.drawOptions().bgColor = None
     drawer.drawOptions().baseFontSize = 1.0
@@ -14,12 +16,16 @@ def emoji_draw(mol, filename=None, width=300, height=200):
 
     for a in Chem.AddHs(mol).GetAtoms():
         sp[f'atom-{a.GetIdx()}'] = emoji_dict[elem_dict[a.GetSymbol()]]
-    svg = rewrite_svg(drawer.GetDrawingText(), sp)
+    svg_data = rewrite_svg(drawer.GetDrawingText(), sp)
     if filename is not None:
         with open(filename, 'w') as f:
-            f.write(svg)
-    else:
-        return svg
+            f.write(svg_data)
+    # try to display with ipython
+    try:
+        from IPython.display import SVG
+        return SVG(svg_data)
+    except ImportError:
+        return svg_data
 
 
 def extract_size(path):
