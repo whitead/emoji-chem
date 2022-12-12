@@ -145,6 +145,8 @@ def rewrite_svg(svg, sp):
                 if 1 < y - y0 and (y - y0 - dy0) ** 2 / dy0**2 < 0.1:
                     # just adjust font size
                     p.attrib["font-size"] = str(dy0 / 2)
+                    # and remove fill
+                    del p.attrib["fill"]
                     continue
                 t = ET.SubElement(
                     root,
