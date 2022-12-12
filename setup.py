@@ -1,26 +1,28 @@
-import io
-import os
-import re
+from glob import glob
 
 from setuptools import setup
 
+exec(open("emojichem/version.py").read())
 
-def read(filename):
-    filename = os.path.join(os.path.dirname(__file__), filename)
-    text_type = type("")
-    with io.open(filename, mode="r", encoding="utf-8") as fd:
-        return re.sub(text_type(r":[a-z]+:`~?(.*?)`"), text_type(r"``\1``"), fd.read())
-
+with open("README.md", "r", encoding="utf-8") as fh:
+    long_description = fh.read()
 
 setup(
     name="emojichem",
-    version="0.2",
-    url="https://github.com/whitead/emoji-chem",
-    license="MIT",
-    author="Andrew D White",
-    author_email="andrew.white@rochester.edu",
+    version=__version__,
     description="Replace elements with emojis in rdkit",
-    long_description=read("README.md"),
+    author="Andrew White",
+    author_email="andrew.white@rochester.edu",
+    url="https://github.com/whitead/emojichem",
+    license="MIT",
     packages=["emojichem"],
     install_requires=["rdkit"],
+    test_suite="tests",
+    long_description=long_description,
+    long_description_content_type="text/markdown",
+    classifiers=[
+        "Programming Language :: Python :: 3",
+        "License :: OSI Approved :: MIT License",
+        "Operating System :: OS Independent",
+    ],
 )

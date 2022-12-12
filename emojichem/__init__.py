@@ -2,6 +2,7 @@ from .data import elem_dict, emoji_dict
 from rdkit import Chem
 from rdkit.Chem import Draw
 import xml.etree.ElementTree as ET
+from .version import __version__
 
 
 def emoji_draw(mol, filename=None, width=300, height=200):
