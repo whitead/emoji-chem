@@ -1,5 +1,15 @@
-# emoji-chem
+# emoji-chem  [![build](https://github.com/whitead/emoji-chem/actions/workflows/tests.yml/badge.svg)](https://whitead.github.io/emoji-chem/)[![PyPI version](https://badge.fury.io/py/emoji-chem.svg)](https://badge.fury.io/py/emoji-chem)
+
+
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/whitead/emoji-chem/blob/main/colab/EmojiChem.ipynb)
+
+## Install
+
+```sh
+pip install emojichem
+```
+
+## Quickstart
 
 ```py
 from rdkit import Chem
