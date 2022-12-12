@@ -238,7 +238,6 @@ elements = [
     "livermorium",
     "tennessine",
     "oganesson",
-    "ununennium",
 ]
 # mapping of element name to symbmol
 elem_dict = {
