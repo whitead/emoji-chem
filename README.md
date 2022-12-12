@@ -12,22 +12,14 @@ pip install emojichem
 ## Quickstart
 
 ```py
-from rdkit import Chem
 import emojichem
-mol = Chem.MolFromSmiles('O=C(NCC1CCCCC1N)C2=CC=CC=C2C3=CC=C(F)C=C3C(=O)NC4CCCCC4')
-emojichem.emoji_draw(mol, 'wow.svg')
-
-# in jupyter notebook
-from IPython.display import SVG, display
-
-svg = emojichem.emoji_draw(mol)
-display(SVG(svg))
+emojichem.emoji_draw('CCN(CC)C(=O)[C@H]1CN([C@@H]2Cc3c[nH]c4c3c(ccc4)C2=C1)C')
 ```
 
 ## Example
 This is how it should look
 
-![image](https://user-images.githubusercontent.com/908389/131951211-ef0047c9-3ced-4967-ae84-0f76c9ff16ea.png?width=40px)
+![image](https://user-images.githubusercontent.com/908389/206943965-f57686f9-554b-476d-9f8a-24121206fce4.png)
 
 
 ## Credit
