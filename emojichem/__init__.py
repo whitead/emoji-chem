@@ -3,14 +3,37 @@ from rdkit import Chem
 from rdkit.Chem import Draw
 import xml.etree.ElementTree as ET
 from .version import __version__
+import skunk
 
 
-def emoji_draw(mol, filename=None, width=300, height=200):
+def emoji_grid(mols, labels=None, filename=None):
+    svgs = []
+    for m in mols:
+        if type(m) is str:
+            m = Chem.MolFromSmiles(m)
+        svgs.append(
+            emoji_draw(m, filename=None, width=200, height=200, return_svg=True)
+        )
+    svg_data = skunk.layout_svgs(svgs, labels=labels)
+    if filename is not None:
+        with open(filename, "w") as f:
+            f.write(svg_data)
+    # try to display with ipython
+    try:
+        from IPython.display import SVG
+
+        return SVG(svg_data)
+    except ImportError:
+        return svg_data
+
+
+def emoji_draw(mol, filename=None, width=300, height=200, return_svg=False):
     if type(mol) is str:
         mol = Chem.MolFromSmiles(mol)
     drawer = Chem.Draw.rdMolDraw2D.MolDraw2DSVG(width, height)
     drawer.drawOptions().bgColor = None
     drawer.drawOptions().baseFontSize = 1.0
+    drawer.drawOptions().drawMolsSameScale = False
     drawer.DrawMolecule(mol)
     drawer.FinishDrawing()
     sp = {}
@@ -22,12 +45,14 @@ def emoji_draw(mol, filename=None, width=300, height=200):
         with open(filename, "w") as f:
             f.write(svg_data)
     # try to display with ipython
-    try:
-        from IPython.display import SVG
+    if not return_svg:
+        try:
+            from IPython.display import SVG
 
-        return SVG(svg_data)
-    except ImportError:
-        return svg_data
+            return SVG(svg_data)
+        except ImportError:
+            pass
+    return svg_data
 
 
 def extract_size(path):
@@ -49,7 +74,6 @@ def rewrite_svg(svg, sp):
     root = ET.fromstring(svg)
     SVGNS = "http://www.w3.org/2000/svg"
     marked = {}
-    undo = dict()
     update = []
     for p in root.findall(".//{http://www.w3.org/2000/svg}path"):
         try:
@@ -58,32 +82,31 @@ def rewrite_svg(svg, sp):
             continue
         if name in sp:
             if name in marked:
-                # check if we need to go back because previous was integer
-                if marked[name][0] == 1:
-                    # reset fill
-                    del undo[name][0].attrib["fill"]
-                    ET.SubElement(root, undo[name][0].tag, undo[name][0].attrib)
-                    root.remove(undo[name][1])
-                    update.remove(undo[name][1])
-
                 x, y, dx, dy = extract_size(p.attrib["d"])
+                # estimate if it's an integer by looking for subscript
+                yf = float(y)
+                y0f = float(marked[name].attrib["y"])
+                dy0f = float(marked[name].attrib["font-size"])
+                if 1 < yf - y0f < dy0f:
+                    # just adjust font size
+                    marked[name].attrib["font-size"] = str(
+                        float(marked[name].attrib["font-size"]) * 0.5
+                    )
+                    continue
                 t = ET.SubElement(
                     root,
                     "{http://www.w3.org/2000/svg}text",
                     {
                         "x": x,
                         "y": y,
-                        "font-size": marked[name][1],
+                        "font-size": dy,
                         "text-anchor": "middle",
                         "dominant-baseline": "hanging",
                         "textLength": dx,
                     },
                 )
                 t.text = emoji_dict["hydrogen"]
-                marked[name][0] += 1
                 update.append(t)
-                # could be digit
-                undo = {name: (p, t)}
             else:
                 x, y, dx, dy = extract_size(p.attrib["d"])
                 t = ET.SubElement(
@@ -99,14 +122,14 @@ def rewrite_svg(svg, sp):
                     },
                 )
                 t.text = sp[name]
-                marked[name] = [0, dy]
+                marked[name] = t
                 update.append(t)
             root.remove(p)
-    # go through and get max font size
-    max_font = 1
+    # go through and get avg font size
+    font_size = 0
     for t in update:
-        max_font = max(max_font, float(t.attrib["font-size"]))
+        font_size += float(t.attrib["font-size"])
     for t in update:
-        t.attrib["font-size"] = str(max_font)
+        t.attrib["font-size"] = str(font_size / len(update))
     ET.register_namespace("", "http://www.w3.org/2000/svg")
     return ET.tostring(root, encoding="unicode", method="xml")

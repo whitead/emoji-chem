@@ -11,6 +11,8 @@ pip install emojichem
 
 ## Quickstart
 
+*Note: this is currently broken -- it mixes up order of hydrogens and heteroatoms on side groups (e.g., NH2 or OH). Not sure how to fix this because rdkit doesn't output enough information for me rewrite the SVG.*
+
 ```py
 import emojichem
 emojichem.emoji_draw('CCN(CC)C(=O)[C@H]1CN([C@@H]2Cc3c[nH]c4c3c(ccc4)C2=C1)C')

@@ -16,7 +16,7 @@ setup(
     url="https://github.com/whitead/emojichem",
     license="MIT",
     packages=["emojichem"],
-    install_requires=["rdkit"],
+    install_requires=["rdkit", "skunk"],
     test_suite="tests",
     long_description=long_description,
     long_description_content_type="text/markdown",
