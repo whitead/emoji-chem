@@ -25,7 +25,7 @@ jobs:
       run: |
         sudo apt-get install libgraphviz-dev graphviz
         python -m pip install --upgrade pip
-        if [ -f requirements.txt ]; then pip install -r dev-requirements.txt; fi
+        if [ -f dev-requirements.txt ]; then pip install -r dev-requirements.txt; fi
     - name: Install
       run: |
         pip install .[all]
