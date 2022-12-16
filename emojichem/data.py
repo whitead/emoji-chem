@@ -107,7 +107,7 @@ emoji_dict = {
     "ytterbium": "🌕",
     "astatine": "⚡️",
     "nobelium": "🏅",
-    "tennessine": "🍅",
+    "tennessine": "🥃",
     "helium": "🎈",
     "neon": "🎃",
     "argon": "👻",
